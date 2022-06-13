@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PEPPOLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustomerRegistration">
+          <Key>
+            <PropertyRef Name="UEN" />
+          </Key>
+          <Property Name="UEN" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="GSTRegistrationNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AddressLine1" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="AddressLine2" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="AuthorizedPersonnelName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AuthorizedPersonnelEmail" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="AuthorizedPersonnelContactNumber" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="SubmitToStarHub" Type="bit" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="PEPPOLID" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PEPPOL.dbo.Errors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Errors">
+          <Key>
+            <PropertyRef Name="Idkey" />
+          </Key>
+          <Property Name="Idkey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrMsg" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="Idkey" />
+          </Key>
+          <Property Name="Idkey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="traceId" Type="varchar" MaxLength="200" />
+          <Property Name="timestamp" Type="varchar" MaxLength="200" />
+          <Property Name="eventType" Type="varchar" MaxLength="200" />
+          <Property Name="outcome" Type="varchar" MaxLength="200" />
+          <Property Name="primarysubjectid" Type="varchar" MaxLength="200" />
+          <Property Name="secondarysubjectid" Type="varchar" MaxLength="200" />
+          <Property Name="message" Type="varchar(max)" />
+          <Property Name="SubmitToSAP" Type="bit" />
+        </EntityType>
+        <EntityType Name="SyncErrLog">
+          <Key>
+            <PropertyRef Name="IdKey" />
+          </Key>
+          <Property Name="IdKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="errMsg" Type="text" />
+          <Property Name="InnerException" Type="text" />
+          <Property Name="FileName" Type="varchar" MaxLength="500" />
+          <Property Name="LineNumber" Type="varchar" MaxLength="20" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="PEPPOLModelStoreContainer">
+          <EntitySet Name="CustomerRegistration" EntityType="Self.CustomerRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SyncErrLog" EntityType="Self.SyncErrLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Errors" EntityType="Self.Errors" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Errors].[Idkey] AS [Idkey], 
+    [Errors].[ErrMsg] AS [ErrMsg]
+    FROM [dbo].[Errors] AS [Errors]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PEPPOLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PEPPOLEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Notifications" EntityType="PEPPOLModel.Notifications" />
+          <EntitySet Name="Errors" EntityType="PEPPOLModel.Errors" />
+          <EntitySet Name="SyncErrLog" EntityType="PEPPOLModel.SyncErrLog" />
+          <EntitySet Name="CustomerRegistration" EntityType="PEPPOLModel.CustomerRegistration" />
+        </EntityContainer>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="Idkey" />
+          </Key>
+          <Property Name="Idkey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="traceId" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="timestamp" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="eventType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="outcome" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="primarysubjectid" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="secondarysubjectid" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubmitToSAP" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Errors">
+          <Key>
+            <PropertyRef Name="Idkey" />
+          </Key>
+          <Property Name="Idkey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SyncErrLog">
+          <Key>
+            <PropertyRef Name="IdKey" />
+          </Key>
+          <Property Name="IdKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="errMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InnerException" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LineNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CustomerRegistration">
+          <Key>
+            <PropertyRef Name="UEN" />
+          </Key>
+          <Property Name="UEN" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="GSTRegistrationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine1" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine2" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorizedPersonnelName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorizedPersonnelEmail" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorizedPersonnelContactNumber" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="SubmitToStarHub" Type="Boolean" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="PEPPOLID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PEPPOLModelStoreContainer" CdmEntityContainer="PEPPOLEntities">
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="PEPPOLModel.Notifications">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="SubmitToSAP" ColumnName="SubmitToSAP" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="secondarysubjectid" ColumnName="secondarysubjectid" />
+                <ScalarProperty Name="primarysubjectid" ColumnName="primarysubjectid" />
+                <ScalarProperty Name="outcome" ColumnName="outcome" />
+                <ScalarProperty Name="eventType" ColumnName="eventType" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="traceId" ColumnName="traceId" />
+                <ScalarProperty Name="Idkey" ColumnName="Idkey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Errors">
+            <EntityTypeMapping TypeName="PEPPOLModel.Errors">
+              <MappingFragment StoreEntitySet="Errors">
+                <ScalarProperty Name="ErrMsg" ColumnName="ErrMsg" />
+                <ScalarProperty Name="Idkey" ColumnName="Idkey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SyncErrLog">
+            <EntityTypeMapping TypeName="PEPPOLModel.SyncErrLog">
+              <MappingFragment StoreEntitySet="SyncErrLog">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LineNumber" ColumnName="LineNumber" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="InnerException" ColumnName="InnerException" />
+                <ScalarProperty Name="errMsg" ColumnName="errMsg" />
+                <ScalarProperty Name="IdKey" ColumnName="IdKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerRegistration">
+            <EntityTypeMapping TypeName="PEPPOLModel.CustomerRegistration">
+              <MappingFragment StoreEntitySet="CustomerRegistration">
+                <ScalarProperty Name="PEPPOLID" ColumnName="PEPPOLID" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="SubmitToStarHub" ColumnName="SubmitToStarHub" />
+                <ScalarProperty Name="AuthorizedPersonnelContactNumber" ColumnName="AuthorizedPersonnelContactNumber" />
+                <ScalarProperty Name="AuthorizedPersonnelEmail" ColumnName="AuthorizedPersonnelEmail" />
+                <ScalarProperty Name="AuthorizedPersonnelName" ColumnName="AuthorizedPersonnelName" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="GSTRegistrationNumber" ColumnName="GSTRegistrationNumber" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="UEN" ColumnName="UEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
